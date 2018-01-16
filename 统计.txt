@@ -1,0 +1,50 @@
+﻿查看访问量前几位的ip
+awk '{print $1}' /usr/local/nginx/logs/access.log |sort -n|uniq -c|sort -nr|head -n 10
+查看https并发连接数以及状态
+netstat  -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'
+查看当前每个ip的连接数
+netstat -lnp |awk  '/^tcp/ { print $5}'|awk -F “:” '{print $1}'|sort|uniq -c|sort -nr
+统计nginx访问量
+awk '$9 == 200 {print $7}' /usr/local/nginx/logs/access.log|sort|uniq -c|sort -nr
+测试网页返回值
+curl -o /dev/null -s -w %{http_code} www.linux.com
+grep -r '192.167.1.1' /etc --include *.conf
+
+sed '/^#/d;/^$/d' /etc/httpd/conf/httpd.conf
+grep -E -v "^$|^#" /etc/httpd/conf/httpd.conf
+awk '! /^#/ && ! /^$/{print $0}'  /etc/httpd/conf/httpd.conf
+awk '! /^#|^$/' /etc/httpd/conf/httpd.conf
+awk '/^[^#]|"^$"/' /etc/httpd/conf/httpd.conf
+11） 递归搜索/etc 目录下包含 ip 的 conf 后缀文件
+
+
+# grep -r[-r递归搜索] '192.167.1.1' /etc --include *.conf
+
+12） 排除搜索 bak 后缀的文件
+
+
+# grep -r '192.167.1.1' /opt --exclude *.bak
+
+13） 排除来自 file 中的文件
+
+
+# grep -r '192.167.1.1' /opt --exclude-from file
+
+14） 匹配 41 或 42 的数字
+tee命令，把后边的输入写到  /etc/docker/daemon.json中，直到遇到EOF位置
+[root@localhost ~]# tee /etc/docker/daemon.json << EOF
+> {
+>   "registry-mirrors": ["https://m0vaijvu.mirror.aliyuncs.com"]
+> }
+> EOF
+自动多级目录
+1，新建样式
+2，将样式作用在多级目录
+3, 将样式作用在文本
+4，自动生成目录
+
+#搜索匹配特定字符的rpm包
+yum search firofox
+#搜索包含特定文件的rpm包
+yum provides firefox
+fuser -m -v -k /mnt/databak/
